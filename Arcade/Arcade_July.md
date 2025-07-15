@@ -16,7 +16,7 @@
 |-----------------|----------------------------------------------------------------------|---------------------------|---------------|
 | Base Camp       | [Go to Game](https://www.cloudskillsboost.google/games/6313)        | ```1q-basecamp-07190```      | 1             |
 | Extra Slot 1    | *(Access code not provided)*                                         | —                         | 1 *(first 50 players)* |
-| Extra Slot 2    | *(Access code not provided)*                                         | —                         | 1             |
+| ExtraSkillestrial!    | [Go to Game](https://www.cloudskillsboost.google/games/6325)                                        | ```1q-container-0704```                         | 2             |
 
 ---
 
