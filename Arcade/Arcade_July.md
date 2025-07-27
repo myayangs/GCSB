@@ -15,8 +15,9 @@
 | Game            | Link                                                                 | Access Code              | Arcade Points |
 |-----------------|----------------------------------------------------------------------|---------------------------|---------------|
 | Base Camp       | [Go to Game](https://www.cloudskillsboost.google/games/6313)        | ```1q-basecamp-07190```      | 1             |
-| Extra Slot 1    | *(Access code not provided)*                                         | —                         | 1 *(first 50 players)* |
+| Work Meets Play: Banking With Empathy    | [Go to Game](https://www.cloudskillsboost.google/games/6374)                                         | ```1q-worknplay-0720```                         | 1 *(first 50 players)* |
 | ExtraSkillestrial!    | [Go to Game](https://www.cloudskillsboost.google/games/6325)                                        | ```1q-container-0704```                         | 2             |
+| Certification Zone July       | [Go to Game](https://www.cloudskillsboost.google/games/6375)        | ```1q-cert-19910```      | 1             |
 
 ---
 
