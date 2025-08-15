@@ -45,7 +45,7 @@ exports.validateTemperature = async (req, res) => {
 };
 EOF
 
-npm install @google-cloud/functions-framework
+npm install @google-cloud/functions-framework &
 
 gcloud functions deploy validateTemperature \
     --trigger-http \
@@ -53,7 +53,7 @@ gcloud functions deploy validateTemperature \
     --gen2 \
     --allow-unauthenticated \
     --region "$REGION" \
-    --service-account "developer-sa@$PROJECT_ID.iam.gserviceaccount.com"
+    --service-account "developer-sa@$PROJECT_ID.iam.gserviceaccount.com" &
 
 echo "${BG_GREEN}${BOLD}✅ Congratulations For Completing The Lab !!!${RESET}"
 
