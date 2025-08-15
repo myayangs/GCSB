@@ -27,8 +27,6 @@ cat >package.json <<EOF
 }
 EOF
 
-npm install @google-cloud/functions-framework
-
 cat >index.js <<'EOF'
 exports.validateTemperature = async (req, res) => {
   try {
@@ -46,6 +44,8 @@ exports.validateTemperature = async (req, res) => {
   }
 };
 EOF
+
+npm install @google-cloud/functions-framework
 
 gcloud functions deploy validateTemperature \
     --trigger-http \
