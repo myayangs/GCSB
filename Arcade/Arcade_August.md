@@ -16,7 +16,7 @@
 |-----------------|----------------------------------------------------------------------|---------------------------|---------------|
 | Base Camp       | [Go to Game](https://www.cloudskillsboost.google/games/6393)        | ```1q-basecamp-2930```      | 1             |
 | -    | [Go to Game](-)                                         | ```-```                         | 1 *(first 50 players)* |
-| -    | [Go to Game](-)                                        | ```-```                         | 2             |
+| Future Ready Skills   | [Go to Game](https://www.cloudskillsboost.google/games/6415)                                        | ```1q-futureready-0229```                         | 2             |
 | Certification Zone August       | [Go to Game](-)        | ```-```      | 1             |
 
 ---
