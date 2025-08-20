@@ -29,9 +29,9 @@ _Challenge your skills. Level up. Earn points. Let's play!_
 | 🎮 Game                                   | 🚀 Link to Play                                              | 🔐 Access Code           | 🗓️ Valid Until    | 🎟️ Points |
 |------------------------------------------|--------------------------------------------------------------|--------------------------|-------------------|------------|
 | ⛺ Base Camp                              | [Play Now](https://www.cloudskillsboost.google/games/6393)  | `1q-basecamp-2930`      | 1/9/2025 - 1:29 AM WIB   | 1          |
-| 💼 Work Meets Play: - | [Play Now](https://www.cloudskillsboost.google/games/)  | `Coming Soon`      | 1/9/2025 - 1:29 AM WIB   | 1 *(first 50 players)*    |
+| 💼 Work Meets Play: Faster Finance | [Play Now](https://www.cloudskillsboost.google/games/6434)  | `1q-finance-10201`      | 1/9/2025 - 1:29 AM WIB   | 1 *(first 50 players)*    |
 | 👾 Future Ready Skills                   | [Play Now](https://www.cloudskillsboost.google/games/6415)   | `1q-futureready-0229`      | 20/8/2025 - 1:29 AM WIB   | 2          |
-| 🏆 Certification Zone August             | [Play Now](https://www.cloudskillsboost.google/games/)  | `Coming Soon`          | 1/9/2025 - 1:29 AM WIB   | 1          |
+| 🏆 Certification Zone August             | [Play Now](https://www.cloudskillsboost.google/games/6435)  | `1q-cert-10811`          | 1/9/2025 - 1:29 AM WIB   | 1          |
 
 ---
 
