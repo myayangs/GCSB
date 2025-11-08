@@ -6,7 +6,7 @@ echo "🚀 Starting Fast Execution..."
 PROJECT_ID=$(gcloud config get-value project)
 BUCKET=${PROJECT_ID}-bucket
 
-gsutil mb -c multi_regional gs://${BUCKET} &
+gsutil mb -c multi_regional gs://${BUCKET} 
 
 mkdir -p endpointslambda && cd $_
 
