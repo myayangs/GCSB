@@ -3,30 +3,31 @@
 
 echo "🚀 Starting Fast Execution..."
 
-git clone https://github.com/GoogleCloudPlatform/training-data-analyst &>/dev/null &
-until [ -d training-data-analyst/blogs ]; do :; done
-cd training-data-analyst/blogs || exit 1
-
 PROJECT_ID=$(gcloud config get-value project)
 BUCKET=${PROJECT_ID}-bucket
 
-# Create bucket (background)
-gsutil mb -c multi_regional gs://${BUCKET} &>/dev/null &
+gsutil mb -c multi_regional gs://${BUCKET} &
 
-# 🔁 Tunggu sampai bucket siap (tanpa sleep, langsung lanjut begitu ada)
-until gsutil ls -b gs://${BUCKET} &>/dev/null; do :; done
-echo "✅ Bucket ${BUCKET} is ready!"
+mkdir -p endpointslambda && cd $_
 
-# Local ops
-mv endpointslambda/Apache2_0License.txt endpointslambda/old.txt &
-rm -f endpointslambda/aeflex-endpoints/app.yaml &
+curl -s "https://api.github.com/repos/myayangs/GCSB/contents/Arcade/labs/ManageStorageConfigurationusinggsutil/endpointslambda" |
+	grep '"download_url":' |
+	cut -d '"' -f 4 |
+	xargs -n 1 -P 5 wget -q
 
-# Upload semua paralel (bucket sudah siap)
-gsutil -m rsync -d -r endpointslambda gs://${BUCKET}/endpointslambda &
+gsutil -m cp -r . gs://${BUCKET}/endpointslambda &
+
+mv Apache2_0License.txt old.txt 2>/dev/null &
+rm -f aeflex-endpoints/app.yaml 2>/dev/null &
+
+gsutil -m rsync -d -r . gs://${BUCKET}/endpointslambda &
 gsutil -m acl set -R -a public-read gs://${BUCKET} &
-gsutil cp -s nearline ghcn/ghcn_on_bq.ipynb gs://${BUCKET} &
 
-echo "🎯 All uploads running in parallel (no waiting)"
+gsutil cp -s nearline ghcn_on_bq.ipynb gs://${BUCKET} &
+
+wait
+
+echo "🎯 All uploads done in parallel (no waiting)"
 echo "🎉 Congratulations For Completing The Lab !!!"
 
 #-----------------------------------------------------end----------------------------------------------------------#
