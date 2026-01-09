@@ -1,7 +1,4 @@
 # 🛠️ Build an AI Image Recognition app using Gemini on Vertex AI
-
----
-
 ## 🖥️ Deploy the App
 
 💻 **Open IDE** → New Tab  
