@@ -106,7 +106,7 @@ EOF_END
 }
 
 task1 
-task2 &
+task2 
 
 echo "${BG_GREEN}${BOLD}✅ Congratulations For Completing The Lab !!!${RESET}"
 
