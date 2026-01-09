@@ -30,7 +30,7 @@ client = genai.Client(
     http_options=HttpOptions(api_version="v1")
 )
 chat = client.chats.create(
-    model="${LAB_MODEL}",
+    model="gemini-2.0-flash-001",
     history=[
         UserContent(parts=[Part(text="Hello")]),
         ModelContent(
@@ -68,7 +68,7 @@ client = genai.Client(
     location='${REGION}',
     http_options=HttpOptions(api_version="v1")
 )
-chat = client.chats.create(model="${LAB_MODEL}")
+chat = client.chats.create(model="gemini-2.0-flash-001")
 response_text = ""
 
 logging.info("Sending streaming prompt...") # Added logging
