@@ -1,6 +1,4 @@
-# 🛠️ GSP880 : Building and Debugging Cloud Functions for Node.js
-
-This guide walks you through building, deploying, and debugging Cloud Functions for Node.js in a sample application.
+# 🛠️ Build a Multi-Modal GenAI Application: Challenge Lab
 
 ---
 
@@ -13,6 +11,5 @@ This guide walks you through building, deploying, and debugging Cloud Functions 
 Then run the following commands:
 
 ```bash
-curl -LO https://raw.githubusercontent.com/myayangs/GCSB/refs/heads/main/Arcade/labs/gsp880/gsp880.sh
-chmod +x gsp880.sh
-./gsp880.sh
+curl -fsSL "https://raw.githubusercontent.com/myayangs/GCSB/refs/heads/main/JuaraGCP-12/Build%20Real%20World%20AI%20Applications%20with%20Gemini%20and%20Imagen/BuildaMulti-ModalGenAIApplicationChallengeLab.sh" | bash
+

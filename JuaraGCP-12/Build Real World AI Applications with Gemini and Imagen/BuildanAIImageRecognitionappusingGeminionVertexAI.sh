@@ -12,9 +12,9 @@ export PROJECT_ID=$(gcloud config get-value project)
 export REGION=$(gcloud compute project-info describe \
 	--format="value(commonInstanceMetadata.items[google-compute-default-region])")
 
-export GOOGLE_CLOUD_PROJECT="${PROJECT_ID}"
-export GOOGLE_CLOUD_LOCATION="${REGION}"
-export GOOGLE_GENAI_USE_VERTEXAI=true
+export GOOGLE_CLOUD_PROJECT=''"${PROJECT_ID}"''
+export GOOGLE_CLOUD_LOCATION=''"${REGION}"''
+export GOOGLE_GENAI_USE_VERTEXAI=True
 
 cat >genai.py <<EOF_END
 from google import genai
