@@ -49,7 +49,7 @@ print(response.text)
 EOF_END
 
 /usr/bin/python3 /home/student/SendChatwithoutStream.py
-
+sleep 5
 
 cat > SendChatwithStream.py <<EOF_END
 from google import genai
@@ -82,6 +82,7 @@ logging.info(f"Received full streaming response: {response_text}") # Added loggi
 EOF_END
 
 /usr/bin/python3 /home/student/SendChatwithStream.py
+sleep 5
 
 echo "${BG_GREEN}${BOLD}✅ Congratulations For Completing The Lab !!!${RESET}"
 
