@@ -34,7 +34,7 @@ response = client.models.generate_content(
 print(response.text)
 EOF_END
 
-/usr/bin/python3 /genai.py
+/usr/bin/python3 /home/student/genai.py
 
 echo "${BG_GREEN}${BOLD}✅ Congratulations For Completing The Lab !!!${RESET}"
 
