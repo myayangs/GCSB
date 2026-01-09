@@ -26,8 +26,8 @@ gcp_logging_client.setup_logging()
 
 client = genai.Client(
     vertexai=True,
-    project='"project-id"',
-    location='"REGION"',
+    project_id='$PROJECT_ID',
+    location='$REGION',
     http_options=HttpOptions(api_version="v1")
 )
 chat = client.chats.create(model="gemini-2.0-flash-001")
@@ -36,8 +36,6 @@ response_text = ""
 for chunk in chat.send_message_stream("What are all the colors in a rainbow?"):
     print(chunk.text, end="")
     response_text += chunk.text
-
-
 EOF_END
 
 /usr/bin/python3 /home/student/SendChatwithStream.py
