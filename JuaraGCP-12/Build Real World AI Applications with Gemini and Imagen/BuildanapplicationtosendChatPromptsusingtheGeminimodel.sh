@@ -12,7 +12,46 @@ export PROJECT_ID=$(gcloud config get-value project)
 export REGION=$(gcloud compute project-info describe \
 	--format="value(commonInstanceMetadata.items[google-compute-default-region])")
 
-cat > SendChatwithStream.py <<EOF
+cat > SendChatwithoutStream.py <<EOF_END
+from google import genai
+from google.genai.types import HttpOptions, ModelContent, Part, UserContent
+
+import logging
+from google.cloud import logging as gcp_logging
+
+# Initialize GCP logging
+gcp_logging_client = gcp_logging.Client()
+gcp_logging_client.setup_logging()
+
+client = genai.Client(
+    vertexai=True,
+    project='${PROJECT_ID}',
+    location='${REGION}',
+    http_options=HttpOptions(api_version="v1")
+)
+chat = client.chats.create(
+    model="${LAB_MODEL}",
+    history=[
+        UserContent(parts=[Part(text="Hello")]),
+        ModelContent(
+            parts=[Part(text="Great to meet you. What would you like to know?")],
+        ),
+    ],
+)
+response = chat.send_message("What are all the colors in a rainbow?")
+logging.info(f'Received response 1: {response.text}') # Added logging
+print(response.text)
+
+response = chat.send_message("Why does it appear when it rains?")
+logging.info(f'Received response 2: {response.text}') # Added logging
+print(response.text)
+
+EOF_END
+
+/usr/bin/python3 /home/student/SendChatwithoutStream.py
+
+
+cat > SendChatwithStream.py <<EOF_END
 from google import genai
 from google.genai.types import HttpOptions
 
@@ -40,7 +79,7 @@ for chunk in chat.send_message_stream("What are all the colors in a rainbow?"):
 print() # Add a newline after streaming output
 logging.info(f"Received full streaming response: {response_text}") # Added logging
 
-EOF
+EOF_END
 
 /usr/bin/python3 /home/student/SendChatwithStream.py
 
