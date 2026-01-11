@@ -55,6 +55,8 @@ EOF_END
 
 /usr/bin/python3 /home/student/GenerateImage.py
 
+sleep 5
+
 echo "${BG_GREEN}${BOLD}✅ Congratulations For Completing The Lab !!!${RESET}"
 
 #-----------------------------------------------------end----------------------------------------------------------#
