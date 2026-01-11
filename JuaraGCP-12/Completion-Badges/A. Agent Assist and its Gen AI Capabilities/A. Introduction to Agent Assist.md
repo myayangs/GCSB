@@ -4,20 +4,19 @@
 To boost the productivity and efficiency of human agents by providing real-time assistance
 ```
 
->Which of the following describes the correct procedure for uploading chat transcripts for LLM Summarization implementation?
+>What happens to the conversation data when a customer is seamlessly transferred from a Conversational Agent to a Human Agent using Agent Assist?
 
 ```
-Upload the transcripts directly to a Cloud Storage bucket as JSON or CSV files.
+The conversation data is forked to both Agent Assist and the human agent, with all context intact.
 ```
 
->When evaluating the performance of an LLM Summarization model, which of the following is a content metric used to assess the summary?
+>What is the role of the Agent Assist NLU module when a handoff to a human agent is initiated?
+```
+It analyzes conversation data to match existing intents and provide suggestions to the human agent.
+```
+
+>Which of the following is a core feature of Agent Assist?
 
 ```
-Resolution
-```
-
->What is the primary purpose of the LLM Baseline Summarization model?
-
-```
-To automatically summarize conversations using a pre-trained model.
+Smart Reply
 ```
