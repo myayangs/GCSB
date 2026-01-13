@@ -8,14 +8,7 @@ export RESET=$(tput sgr0)
 #----------------------------------------------------start--------------------------------------------------#
 echo "${BG_MAGENTA}${BOLD}Starting Execution${RESET}"
 
-read -p "Processor [1=form, 2=finance, 3=custom] (default: 1): " c
-c=${c:-1}
-
-case "$c" in
-1) PROCESSOR="form-processor" ;;
-2) PROCESSOR="finance-processor" ;;
-3) read -p "Custom processor name: " PROCESSOR ;;
-esac
+read -p "Processor name: " PROCESSOR
 
 export PROCESSOR
 export PROJECT_ID=$(gcloud config get-value project)
@@ -42,21 +35,21 @@ task1() {
 		--role "roles/pubsub.publisher" \
 		--quiet
 
-	curl -X POST \
+	curl -s -X POST \
 		-H "Authorization: Bearer $ACCESS_TOKEN" \
 		-H "Content-Type: application/json" \
 		-d '{
-    "display_name": "'"$PROCESSOR"'",
-    "type": "FORM_PARSER_PROCESSOR"
-  }' \
+      "display_name": "'"$PROCESSOR"'",
+      "type": "FORM_PARSER_PROCESSOR"
+    }' \
 		"https://documentai.googleapis.com/v1/projects/$PROJECT_ID/locations/us/processors"
 
-	PROCESSOR_ID=$(curl -X GET \
+	PROCESSOR_ID=$(curl -s \
 		-H "Authorization: Bearer $ACCESS_TOKEN" \
-		-H "Content-Type: application/json" \
 		"https://documentai.googleapis.com/v1/projects/$PROJECT_ID/locations/us/processors" |
 		grep '"name":' |
-		sed -E 's/.*"name": "projects\/[0-9]+\/locations\/us\/processors\/([^"]+)".*/\1/')
+		sed -E 's/.*processors\/([^"]+)".*/\1/' |
+		head -n 1)
 
 	export PROCESSOR_ID
 }
@@ -88,56 +81,58 @@ task3() {
 
 task1 &
 task2 &
-task3
+task3 &
 
-# sleep 20
+wait
 
-# deploy_function1() {
-# 	gcloud functions deploy process-invoices \
-# 		--gen2 \
-# 		--region=$REGION \
-# 		--entry-point=process_invoice \
-# 		--runtime=python39 \
-# 		--service-account=${PROJECT_ID}@appspot.gserviceaccount.com \
-# 		--source=${HOME}/document-ai-challenge/scripts/cloud-functions/process-invoices \
-# 		--timeout=400 \
-# 		--env-vars-file=${HOME}/document-ai-challenge/scripts/cloud-functions/process-invoices/.env.yaml \
-# 		--trigger-resource=gs://${PROJECT_ID}-input-invoices \
-# 		--trigger-event=google.storage.object.finalize --service-account $PROJECT_NUMBER-compute@developer.gserviceaccount.com \
-# 		--allow-unauthenticated
-# }
-# deploy_success=false
-# while [ "$deploy_success" = false ]; do
-# 	if deploy_function1; then
-# 		echo "Function deployed successfully..."
-# 		deploy_success=true
-# 	else
-# 		echo "Retrying..."
-# 	fi
-# done
+deploy_function1() {
+	gcloud functions deploy process-invoices \
+		--gen2 \
+		--region=$REGION \
+		--entry-point=process_invoice \
+		--runtime=python311 \
+		--service-account=${PROJECT_ID}@appspot.gserviceaccount.com \
+		--source=document-ai-challenge/scripts/cloud-functions/process-invoices \
+		--timeout=400 \
+		--env-vars-file=document-ai-challenge/scripts/cloud-functions/process-invoices/.env.yaml \
+		--trigger-resource=gs://${PROJECT_ID}-input-invoices \
+		--trigger-event=google.storage.object.finalize --service-account $PROJECT_NUMBER-compute@developer.gserviceaccount.com \
+		--allow-unauthenticated
+}
+deploy_success=false
+while [ "$deploy_success" = false ]; do
+	if deploy_function1; then
+		echo "Function deployed successfully..."
+		deploy_success=true
+	else
+		echo "Retrying..."
+	fi
+done
 
-# deploy_function2() {
-# 	gcloud functions deploy process-invoices \
-# 		--gen2 \
-# 		--region=$REGION \
-# 		--entry-point=process_invoice \
-# 		--runtime=python39 \
-# 		--source=${HOME}/document-ai-challenge/scripts/cloud-functions/process-invoices \
-# 		--timeout=400 \
-# 		--trigger-resource=gs://${PROJECT_ID}-input-invoices \
-# 		--trigger-event=google.storage.object.finalize \
-# 		--update-env-vars=PROCESSOR_ID=${PROCESSOR_ID},PARSER_LOCATION=us,PROJECT_ID=${PROJECT_ID} \
-# 		--service-account=$PROJECT_NUMBER-compute@developer.gserviceaccount.com
-# }
-# deploy_success=false
-# while [ "$deploy_success" = false ]; do
-# 	if deploy_function2; then
-# 		echo "Function deployed successfully..."
-# 		deploy_success=true
-# 	else
-# 		echo "Retrying..."
-# 	fi
-# done
+deploy_function2() {
+	gcloud functions deploy process-invoices \
+		--gen2 \
+		--region=$REGION \
+		--entry-point=process_invoice \
+		--runtime=python311 \
+		--source=document-ai-challenge/scripts/cloud-functions/process-invoices \
+		--timeout=400 \
+		--trigger-resource=gs://${PROJECT_ID}-input-invoices \
+		--trigger-event=google.storage.object.finalize \
+		--update-env-vars=PROCESSOR_ID=${PROCESSOR_ID},PARSER_LOCATION=us,PROJECT_ID=${PROJECT_ID} \
+		--service-account=$PROJECT_NUMBER-compute@developer.gserviceaccount.com
+}
+deploy_success=false
+while [ "$deploy_success" = false ]; do
+	if deploy_function2; then
+		echo "Function deployed successfully..."
+		deploy_success=true
+	else
+		echo "Retrying..."
+	fi
+done
+
+gsutil -m cp -r gs://cloud-training/gsp367/* document-ai-challenge/invoices gs://${PROJECT_ID}-input-invoices/
 
 echo "${BG_GREEN}${BOLD}✅ Congratulations For Completing The Lab !!!${RESET}"
 
