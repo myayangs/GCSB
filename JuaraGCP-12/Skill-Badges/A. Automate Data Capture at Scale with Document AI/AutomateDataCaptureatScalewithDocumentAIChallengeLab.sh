@@ -44,14 +44,6 @@ task1() {
     }' \
 		"https://documentai.googleapis.com/v1/projects/$PROJECT_ID/locations/us/processors"
 
-	PROCESSOR_ID=$(curl -s \
-		-H "Authorization: Bearer $ACCESS_TOKEN" \
-		"https://documentai.googleapis.com/v1/projects/$PROJECT_ID/locations/us/processors" |
-		grep '"name":' |
-		sed -E 's/.*processors\/([^"]+)".*/\1/' |
-		head -n 1)
-
-	export PROCESSOR_ID
 }
 
 task2() {
@@ -62,6 +54,8 @@ task2() {
 	for suffix in input-invoices output-invoices archived-invoices; do
 		gsutil mb -c standard -l "${REGION}" -b on "gs://${PROJECT_ID}-${suffix}" &
 	done
+
+	wait
 
 	gsutil -m cp -r gs://cloud-training/gsp367/* \
 		~/document-ai-challenge/invoices gs://${PROJECT_ID}-input-invoices/
@@ -85,12 +79,21 @@ task3 &
 
 wait
 
+PROCESSOR_ID=$(curl -X GET \
+	-H "Authorization: Bearer $ACCESS_TOKEN" \
+	-H "Content-Type: application/json" \
+	"https://documentai.googleapis.com/v1/projects/$PROJECT_ID/locations/us/processors" |
+	grep '"name":' |
+	sed -E 's/.*"name": "projects\/[0-9]+\/locations\/us\/processors\/([^"]+)".*/\1/')
+export PROCESSOR_ID
+
 deploy_function1() {
+
 	gcloud functions deploy process-invoices \
 		--gen2 \
 		--region=$REGION \
 		--entry-point=process_invoice \
-		--runtime=python311 \
+		--runtime=python313 \
 		--service-account=${PROJECT_ID}@appspot.gserviceaccount.com \
 		--source=document-ai-challenge/scripts/cloud-functions/process-invoices \
 		--timeout=400 \
@@ -114,7 +117,7 @@ deploy_function2() {
 		--gen2 \
 		--region=$REGION \
 		--entry-point=process_invoice \
-		--runtime=python311 \
+		--runtime=python313 \
 		--source=document-ai-challenge/scripts/cloud-functions/process-invoices \
 		--timeout=400 \
 		--trigger-resource=gs://${PROJECT_ID}-input-invoices \
