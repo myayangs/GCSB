@@ -8,7 +8,7 @@ export RESET=$(tput sgr0)
 #----------------------------------------------------start--------------------------------------------------#
 echo "${BG_MAGENTA}${BOLD}Starting Execution${RESET}"
 
-read -p "Processor name: " PROCESSOR
+read -p "Processor name: " PROCESSOR </dev/tty
 
 export PROCESSOR
 export PROJECT_ID=$(gcloud config get-value project)
