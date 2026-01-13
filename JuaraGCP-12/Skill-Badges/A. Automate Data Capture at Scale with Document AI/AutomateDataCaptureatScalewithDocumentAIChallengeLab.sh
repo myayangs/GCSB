@@ -66,61 +66,84 @@ task1() {
 
 }
 
-setup_bigquery() {
-  bq --location=US mk -d \
-    --description "Form Parser Results" \
-    "${PROJECT_ID}:invoice_parser_results" 2>/dev/null || true
+task2() {
+	mkdir -p ~/document-ai-challenge
 
-  bq mk --table \
-    invoice_parser_results.doc_ai_extracted_entities \
-    "${HOME}/document-ai-challenge/scripts/table-schema/doc_ai_extracted_entities.json" \
-    2>/dev/null || true
+	gsutil -m cp -r gs://spls/gsp367/* ~/document-ai-challenge/ &
+
+	for suffix in input-invoices output-invoices archived-invoices; do
+		gsutil mb -c standard -l "${REGION}" -b on "gs://${PROJECT_ID}-${suffix}" &
+	done
+
+	wait
 }
 
-deploy_function_initial() {
-  gcloud functions deploy process-invoices \
-    --gen2 \
-    --region="${REGION}" \
-    --entry-point=process_invoice \
-    --runtime=python39 \
-    --source=cloud-functions/process-invoices \
-    --timeout=400 \
-    --env-vars-file=cloud-functions/process-invoices/.env.yaml \
-    --trigger-resource="gs://${PROJECT_ID}-input-invoices" \
-    --trigger-event=google.storage.object.finalize \
-    --service-account="${PROJECT_NUMBER}-compute@developer.gserviceaccount.com" \
-    --allow-unauthenticated
+task3() {
+	bq --location=US mk -d \
+		--description "Form Parser Results" \
+		"${PROJECT_ID}:invoice_parser_results" 2>/dev/null || true
+
+	bq mk --table \
+		invoice_parser_results.doc_ai_extracted_entities \
+		"${HOME}/document-ai-challenge/scripts/table-schema/doc_ai_extracted_entities.json" \
+		2>/dev/null || true
 }
 
-deploy_function_update_env() {
-  gcloud functions deploy process-invoices \
-    --gen2 \
-    --region="${REGION}" \
-    --entry-point=process_invoice \
-    --runtime=python39 \
-    --source=cloud-functions/process-invoices \
-    --timeout=400 \
-    --trigger-resource="gs://${PROJECT_ID}-input-invoices" \
-    --trigger-event=google.storage.object.finalize \
-    --update-env-vars="PROCESSOR_ID=${PROCESSOR_ID},PARSER_LOCATION=us,PROJECT_ID=${PROJECT_ID}" \
-    --service-account="${PROJECT_NUMBER}-compute@developer.gserviceaccount.com"
+task1 &
+task2
+task3 &
+
+sleep 10
+
+deploy_function1() {
+	gcloud functions deploy process-invoices \
+		--gen2 \
+		--region=$REGION \
+		--entry-point=process_invoice \
+		--runtime=python39 \
+		--service-account=${PROJECT_ID}@appspot.gserviceaccount.com \
+		--source=cloud-functions/process-invoices \
+		--timeout=400 \
+		--env-vars-file=cloud-functions/process-invoices/.env.yaml \
+		--trigger-resource=gs://${PROJECT_ID}-input-invoices \
+		--trigger-event=google.storage.object.finalize --service-account $PROJECT_NUMBER-compute@developer.gserviceaccount.com \
+		--allow-unauthenticated
 }
+deploy_success=false
+while [ "$deploy_success" = false ]; do
+	if deploy_function1; then
+		echo "Function deployed successfully..."
+		deploy_success=true
+	else
+		echo "Retrying..."
+	fi
+done
 
-retry enable_lib
-echo "Required APIs enabled."
-
-create_processor_and_iam & pid1=$!
-setup_local_and_buckets & pid2=$!
-setup_bigquery & pid3=$!
-
-wait "$pid1" "$pid2" "$pid3"
-
-
-retry deploy_function_initial
-retry deploy_function_update_env
+deploy_function2() {
+	gcloud functions deploy process-invoices \
+		--gen2 \
+		--region=$REGION \
+		--entry-point=process_invoice \
+		--runtime=python39 \
+		--source=cloud-functions/process-invoices \
+		--timeout=400 \
+		--trigger-resource=gs://${PROJECT_ID}-input-invoices \
+		--trigger-event=google.storage.object.finalize \
+		--update-env-vars=PROCESSOR_ID=${PROCESSOR_ID},PARSER_LOCATION=us,PROJECT_ID=${PROJECT_ID} \
+		--service-account=$PROJECT_NUMBER-compute@developer.gserviceaccount.com
+}
+deploy_success=false
+while [ "$deploy_success" = false ]; do
+	if deploy_function2; then
+		echo "Function deployed successfully..."
+		deploy_success=true
+	else
+		echo "Retrying..."
+	fi
+done
 
 gsutil -m cp -r gs://cloud-training/gsp367/* \
-  ~/document-ai-challenge/invoices "gs://${PROJECT_ID}-input-invoices/"
+	~/document-ai-challenge/invoices gs://${PROJECT_ID}-input-invoices/
 
 echo "${BG_GREEN}${BOLD}✅ Congratulations For Completing The Lab !!!${RESET}"
 
