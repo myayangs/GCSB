@@ -8,4 +8,4 @@
 Then run the following commands:
 
 ```bash
-curl -fsSL "https://raw.githubusercontent.com/myayangs/GCSB/refs/heads/main/JuaraGCP-12/Skill-Badges/A.%20Automate%20Data%20Capture%20at%20Scale%20with%20Document%20AI/CreateMLModelswithBigQueryMLChallengeLab.sh" | bash
+curl -fsSL "https://raw.githubusercontent.com/myayangs/GCSB/refs/heads/main/JuaraGCP-12/Skill-Badges/C.%20Create%20ML%20Models%20with%20BigQuery%20ML/CreateMLModelswithBigQueryMLChallengeLab.sh" | bash
