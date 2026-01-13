@@ -7,7 +7,7 @@ export RESET=$(tput sgr0)
 
 #----------------------------------------------------start--------------------------------------------------#
 echo "${BG_MAGENTA}${BOLD}Starting Execution${RESET}"
-
+echo "test"
 export PROJECT_ID=$(gcloud config get-value project)
 export REGION=$(gcloud compute project-info describe \
 	--format="value(commonInstanceMetadata.items[google-compute-default-region])")
