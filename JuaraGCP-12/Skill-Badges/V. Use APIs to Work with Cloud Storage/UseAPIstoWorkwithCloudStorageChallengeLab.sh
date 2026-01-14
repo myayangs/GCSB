@@ -10,6 +10,8 @@ echo "${BG_MAGENTA}${BOLD}Starting Execution${RESET}"
 
 export PROJECT_ID=$(gcloud config get-value project)
 
+curl -L -o world.jpeg https://raw.githubusercontent.com/myayangs/GCSB/refs/heads/main/JuaraGCP-12/Skill-Badges/V.%20Use%20APIs%20to%20Work%20with%20Cloud%20Storage/world.jpeg
+
 cat >bucket.json <<EOF
 {  
    "name": "$PROJECT_ID-bucket-1",
@@ -32,8 +34,6 @@ cat >public_access.json <<EOF
     "role": "READER"
 }
 EOF
-
-
 
 curl -X POST \
 	-H "Authorization: Bearer $(gcloud auth print-access-token)" \
