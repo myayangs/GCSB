@@ -35,6 +35,8 @@ cat >public_access.json <<EOF
 }
 EOF
 
+
+
 curl -X POST \
 	-H "Authorization: Bearer $(gcloud auth print-access-token)" \
 	-H "Content-Type: application/json" \
@@ -46,6 +48,8 @@ curl -X POST \
 	-H "Content-Type: application/json" \
 	--data-binary @./bucket2.json \
 	"https://storage.googleapis.com/storage/v1/b?project=$PROJECT_ID"
+
+sleep 10
 
 curl -X POST \
 	-H "Authorization: Bearer $(gcloud auth print-access-token)" \
