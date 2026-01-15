@@ -49,7 +49,7 @@ curl -X POST \
 	--data-binary @./bucket2.json \
 	"https://storage.googleapis.com/storage/v1/b?project=$PROJECT_ID"
 
-sleep 10
+sleep 7
 
 curl -X POST \
 	-H "Authorization: Bearer $(gcloud auth print-access-token)" \
