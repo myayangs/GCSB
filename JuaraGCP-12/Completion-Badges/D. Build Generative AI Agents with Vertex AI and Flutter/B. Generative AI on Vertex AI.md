@@ -1,6 +1,6 @@
->What are some capabilities of Vertex AI Agent Builder? Select four.
+>What are the four main components in Vertex AI that are used to build Gen AI applications with Reasoning Engine?
 ```
-Orchestration 
+Orchestration framework
 ```
 ```
 framework 
