@@ -3,13 +3,13 @@
 Orchestration framework
 ```
 ```
-framework 
+Model
 ```
 ```
 Managed runtime
 ``` 
 ```
-Tools Model
+Tools 
 ```
 
 >What are some capabilities of Vertex AI Agent Builder? Select four.
