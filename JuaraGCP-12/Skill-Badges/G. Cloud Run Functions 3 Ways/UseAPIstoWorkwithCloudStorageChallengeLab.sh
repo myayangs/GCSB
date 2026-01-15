@@ -88,6 +88,7 @@ EOF
 			echo "Function deployed successfully..."
 			deploy_success=true
 		else
+			echo "Retrying ..."
 		fi
 	done
 
@@ -133,7 +134,7 @@ EOF
 			echo "Function deployed successfully..."
 			deploy_success=true
 		else
-			echo "Retrying in 20 seconds..."
+			echo "Retrying ..."
 		fi
 	done
 
