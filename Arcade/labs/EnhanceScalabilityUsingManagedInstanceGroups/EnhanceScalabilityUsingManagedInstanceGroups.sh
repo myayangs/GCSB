@@ -3,8 +3,7 @@
 
 echo "🚀 Starting Fast Execution..."
 
-REGION="$(gcloud compute project-info describe \
-	--format="value(commonInstanceMetadata.items[google-compute-default-region])")"
+export REGION=$(gcloud compute project-info describe --format="value(commonInstanceMetadata.items[google-compute-default-region])")
 
 gcloud compute instance-groups managed create dev-instance-group \
 	--template=dev-instance-template \
